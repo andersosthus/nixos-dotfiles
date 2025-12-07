@@ -21,11 +21,11 @@
         border_size = 2;
         resize_on_border = false;
         allow_tearing = false;
-        layout = dwindle;
+        layout = "dwindle";
 
         col = {
-          active_border = ;
-          inactive_border = ;
+          active_border = "$activeBorderColor";
+          inactive_border = "$inactiveBorderColor";
         };
       };
 
@@ -39,7 +39,7 @@
           enabled = true;
           range = 4;
           render_power = 3;
-          color = ;
+          color = "$shadowColor";
         };
 
         blur = {
@@ -87,7 +87,7 @@
       };
 
       master = {
-        new_status = master;
+        new_status = "master";
       };
 
       misc = {
@@ -111,7 +111,7 @@
       };
 
       input = {
-        kb_layout = no;
+        kb_layout = "no";
         kb_options = "compose:caps";
 
         repeat_rate = 40;
@@ -123,13 +123,13 @@
       };
 
       exec-once = [
-        hyprsunset
+        "hyprsunset"
       ];
 
-      env = [
+      env = {
         XCURSOR_SIZE = 24;
         HYPRCURSOR_SIZE = 24;
-      ];
+      };
 
       xwayland = {
         force_zero_scaling = true;
@@ -169,7 +169,8 @@
             "$mod, code:1${toString i}, split:workspace, ${toString ws}"
             "$mod, code:1${toString i}, split:movetoworkspacesilent, ${toString ws}"
           ]
-        ))
+        )
+        6)
       );
     };
   };
