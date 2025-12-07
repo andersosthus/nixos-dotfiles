@@ -19,7 +19,7 @@
     hyprland = {
       url = "github:hyprwm/Hyprland";
     };
-    hyprland-split-monitor-workspaces = {
+    split-monitor-workspaces = {
       url = "github:Duckonaut/split-monitor-workspaces";
       inputs.hyprland.follows = "hyprland";
     };
@@ -27,7 +27,7 @@
 
   outputs = inputs@{ self, nixpkgs, disko, home-manager, agenix, ... }:
   let
-    mkHost = { hostName, userName, theme, system, extraModules ? [ ] }:
+    mkHost = { hostName, userName, theme, system, extraModules ? [] }:
       nixpkgs.lib.nixosSystem {
         inherit system;
         specialArgs = { inherit inputs hostName userName theme; };
@@ -50,8 +50,8 @@
               backupFileExtension = "backup";
 
               extraSpecialArgs = {
-                inherit userName hostName theme;
-              }
+                inherit inputs userName hostName theme;
+              };
             };
           }
         ] ++ extraModules;

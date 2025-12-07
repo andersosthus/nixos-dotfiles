@@ -23,6 +23,8 @@
     VISUAL = "nvim";
   };
 
+  environment.pathsToLink = [ "/share/applications" "/share/xdg-desktop-portal" ];
+
   i18n.defaultLocale = "en_US.UTF-8";
 
   services.pipewire = {
