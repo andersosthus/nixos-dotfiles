@@ -11,26 +11,60 @@
       url = "github:nix-community/disko/latest";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    agenix = {
+      url = "github:ryantm/agenix";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.darwin.follows = "";
+    };
+    hyprland = {
+      url = "github:hyprwm/Hyprland";
+    };
+    hyprland-split-monitor-workspaces = {
+      url = "github:Duckonaut/split-monitor-workspaces";
+      inputs.hyprland.follows = "hyprland";
+    };
   };
 
-  outputs = { self, nixpkgs, home-manager, disko, ... }: {
-    nixosConfigurations.alachia = nixpkgs.lib.nixosSystem {
-      system = "x86_64-linux";
-      modules = [
-        ./configuration.nix
-        disko.nixosModules.disko
-        ./disko-config.nix
-        home-manager.nixosModules.home-manager
-        {
-          home-manager = {
-            useGlobalPkgs = true;
-            useUserPackages = true;
-            users.grapz = import ./home.nix;
-            backupFileExtension = "backup";
-          };
-        }
-        ./hyprland.nix
-      ];
+  outputs = inputs@{ self, nixpkgs, disko, home-manager, agenix, ... }:
+  let
+    mkHost = { hostName, userName, theme, system, extraModules ? [ ] }:
+      nixpkgs.lib.nixosSystem {
+        inherit system;
+        specialArgs = { inherit inputs hostName userName theme; };
+
+        modules = [
+          ./hosts/alachia/configuration.nix
+          ./hosts/alachia/disko-config.nix
+
+          disko.nixosModules.disko
+
+          home-manager.nixosModules.home-manager
+
+          agenix.nixosModules.default
+
+          {
+            home-manager = {
+              useGlobalPkgs = true;
+              useUserPackages = true;
+              users.${userName} = import ./modules/home.nix;
+              backupFileExtension = "backup";
+
+              extraSpecialArgs = {
+                inherit userName hostName theme;
+              }
+            };
+          }
+        ] ++ extraModules;
+      };
+  in
+  {
+    nixosConfigurations = {
+      alachia = mkHost {
+        hostName = "alachia";
+        userName = "grapz";
+        theme = "tokyo-nights";
+        system = "x86_64-linux";
+      };
     };
   };
 }

@@ -18,9 +18,9 @@
 
   services.getty.autologinUser = "grapz";
 
-  programs.hyprland = {
-    enable = true;
-    xwayland.enable = true;
+  environment.variables = {
+    EDITOR = "nvim";
+    VISUAL = "nvim";
   };
 
   i18n.defaultLocale = "en_US.UTF-8";
@@ -47,7 +47,6 @@
     wget
     git
     ghostty
-    kitty
     waybar
     hyprpaper
   ];
