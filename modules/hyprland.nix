@@ -8,9 +8,19 @@ in
 {
   wayland.windowManager.hyprland = {
     enable = true;
+    xwayland.enable = true;
+    package = null;
+    portalPackage = null;
     plugins = [
-      inputs.split-monitor-workspaces.packages.${pkgs.system}.split-monitor-workspaces
+      pkgs.hyprlandPlugins.hyprsplit
     ];
+    settings = {
+      "$mod" = "SUPER";
+      bind = [
+        "$mod, RETURN, exec, ghostty"
+        "$mod CTRL SHIFT, q, killactive"
+      ];
+    };
   };
 
   programs.kitty = {
