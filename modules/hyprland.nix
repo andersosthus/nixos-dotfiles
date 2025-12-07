@@ -21,12 +21,10 @@
         border_size = 2;
         resize_on_border = false;
         allow_tearing = false;
-        layout = "dwindle";
+        layout = "master";
 
-        col = {
-          active_border = "$activeBorderColor";
-          inactive_border = "$inactiveBorderColor";
-        };
+        "col.active_border" = "$activeBorderColor";
+        "col.inactive_border" = "$inactiveBorderColor";
       };
 
       decoration = {
@@ -126,11 +124,6 @@
         "hyprsunset"
       ];
 
-      env = {
-        XCURSOR_SIZE = 24;
-        HYPRCURSOR_SIZE = 24;
-      };
-
       xwayland = {
         force_zero_scaling = true;
       };
@@ -158,9 +151,9 @@
         "$mod SHIFT, K, movewindow, u"
         "$mod SHIFT, J, movewindow, d"
         "$mod CTRL SHIFT, N, movewindow, mon:+1"
-        "$mod CTRL SHIFT ALT, G, grabrougewindows"
-        "$mod CTRL SHIFT, S, swapactiveworkspaces, current +1"
-        "$mod, S, swapwithmaster"
+        "$mod CTRL SHIFT ALT, G, split:grabroguewindows"
+        "$mod CTRL SHIFT, S, split:swapactiveworkspaces, current +1"
+        "$mod, S, layoutmsg, swapwithmaster"
       ]
       ++ (
         builtins.concatLists (builtins.genList (i:
