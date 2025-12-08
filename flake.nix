@@ -45,7 +45,7 @@
             home-manager = {
               useGlobalPkgs = true;
               useUserPackages = true;
-              users.${userName} = import ./modules/home.nix;
+              users.${userName} = import ./hosts/${hostName}/home.nix;
               backupFileExtension = "backup";
 
               extraSpecialArgs = {

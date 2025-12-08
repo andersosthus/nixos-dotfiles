@@ -1,4 +1,4 @@
-{ pkgs, theme, ... }:
+{ pkgs, theme, scriptsDir, ... }:
 
 {
   wayland.windowManager.hyprland = {
@@ -207,6 +207,7 @@
           check_color = "${theme.color13.rgba}";
           success_color = "${theme.color11.rgba}";
           fail_color = "${theme.color15.rgba}";
+          font_family = "JetBrainsMono Nerd Font";
         }
       ];
     };
@@ -214,5 +215,25 @@
 
   services.hypridle = {
     enable = true;
+    settings = {
+      general = {
+        lock_cmd = "${scriptsDir}/lock-screen";
+        before_sleep_cmd = "loginctl lock-session";
+        after_sleep_cmd = "hyprctl dispatch dpms on";
+        inhibit_sleep = 3;
+      };
+
+      listener = [
+        {
+          timeout = 300;
+          on-timeout = "loginctl lock-session";
+        }
+        {
+          timeout = 330;
+          on-timeout = "hyprctl dispatch dpms off";
+          on-resume = "hyprctl dispatch dpms on && brightnessctl -r";
+        }
+      ];
+    };
   };
 }

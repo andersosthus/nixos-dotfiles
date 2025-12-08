@@ -9,11 +9,7 @@
     [
     ];
   imports = [
-    ./scripts.nix
-    ./fish.nix
-    ./git.nix
-    ./hyprland.nix
-    ./neovim.nix
-    ../themes/${themeName}/base.nix
+    ../../modules/desktop.nix
+    ../components/hosts/alachia/hyprland.nix
   ];
 }
