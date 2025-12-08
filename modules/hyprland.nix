@@ -20,8 +20,8 @@
         allow_tearing = false;
         layout = "master";
 
-        "col.active_border" = "${theme.color10.toHexRGBA}";
-        "col.inactive_border" = "${theme.color04.toHexRGBA}";
+        "col.active_border" = "${theme.color10.hexRGBA}";
+        "col.inactive_border" = "${theme.color04.hexRGBA}";
       };
 
       decoration = {
@@ -34,7 +34,7 @@
           enabled = true;
           range = 4;
           render_power = 3;
-          color = "${theme.color02.toHexRGBA}";
+          color = "${theme.color02.hexRGBA}";
         };
 
         blur = {
@@ -193,7 +193,7 @@
       background = [
         {
           monitor = "";
-          color = "${theme.color00.toRgba}";
+          color = "${theme.color00.rgba}";
         }
       ];
 
@@ -204,9 +204,9 @@
           monitor = "";
           dots_center = true;
           fade_on_empty = false;
-          check_color = "${theme.color13.toRgba}";
-          success_color = "${theme.color11.toRgba}";
-          fail_color = "${theme.color15.toRgba}";
+          check_color = "${theme.color13.rgba}";
+          success_color = "${theme.color11.rgba}";
+          fail_color = "${theme.color15.rgba}";
         }
       ];
     };
