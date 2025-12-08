@@ -8,7 +8,7 @@
 
   # Laptop specific settings
   powerManagement.enable = true;
-  powerManagement.powerTop.enable = true;
+  #powerManagement.powerTop.enable = true;
   services.auto-cpufreq.enable = true;
   # End laptop specific settings
 
