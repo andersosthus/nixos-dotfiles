@@ -23,6 +23,7 @@ let
   # Helpers
   pad2 = s: if builtins.stringLength s == 1 then "0${s}" else s;
   toHex2 = n: pad2 (lib.toHexString n);
+  round3 = x: builtins.floor (x * 1000.0 + 0.5) / 1000.0;
 
   # Formatters
   toHex = c: "#${toHex2 c.r}${toHex2 c.g}${toHex2 c.b}";
@@ -34,7 +35,7 @@ let
   toRgba = c:
     let
       aFloat = (c.a or 255) / 255.0;
-      aStr = builtins.toString (lib.round (aFloat * 1000) / 1000.0);
+      aStr = builtins.toString (round3 aFloat);
     in
       "rgba(${builtins.toString c.r}, ${builtins.toString c.g}, ${builtins.toString c.b}, ${aStr})";
 
