@@ -1,5 +1,5 @@
 {
-  programs.fish = {
+  programs.bash = {
     enable = true;
   };
 }

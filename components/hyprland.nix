@@ -139,10 +139,10 @@
       bind = [
         "$mod, RETURN, exec, ghostty"
         "$mod CTRL SHIFT, Q, killactive"
-        "$mod, H, movefocus, l"
-        "$mod, L, movefocus, r"
-        "$mod, K, movefocus, u"
-        "$mod, J, movefocus, d"
+        "$mod CTRL, H, movefocus, l"
+        "$mod CTRL, L, movefocus, r"
+        "$mod CTRL, K, movefocus, u"
+        "$mod CTRL, J, movefocus, d"
         "$mod SHIFT, H, movewindow, l"
         "$mod SHIFT, L, movewindow, r"
         "$mod SHIFT, K, movewindow, u"
@@ -151,7 +151,7 @@
         "$mod CTRL SHIFT ALT, G, split:grabroguewindows"
         "$mod CTRL SHIFT, S, split:swapactiveworkspaces, current +1"
         "$mod, S, layoutmsg, swapwithmaster"
-        "$mod, L, exec, ~/.local/bin/lock-screen"
+        "$mod, L, exec, ${localBinDir}/lock-screen"
       ]
       ++ (
         builtins.concatLists (builtins.genList (i:
