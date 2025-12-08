@@ -46,6 +46,7 @@ in
     packages = with pkgs; [
       tree
     ];
+    shell = pkgs.fish;
   };
 
   environment.variables = {
