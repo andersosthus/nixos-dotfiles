@@ -9,5 +9,6 @@
     ../components/git.nix
     ../components/hyprland.nix
     ../components/neovim.nix
+    ../components/fzf.nix
   ];
 }
