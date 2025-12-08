@@ -1,8 +1,6 @@
 { pkgs, themeName, userName, ... }:
 
 let
-  tuigreet = "${pkgs.greetd.tuigreet}/bin/tuigreet";
-  session = "${pkgs.hyprland}/bin/hyprland";
   theme = import ../themes/${themeName}/base.nix;
 in
 

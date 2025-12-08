@@ -1,5 +1,10 @@
 { config, lib, pkgs, inputs, userName, ... }:
 
+let
+  tuigreet = "${pkgs.greetd.tuigreet}/bin/tuigreet";
+  session = "${pkgs.hyprland}/bin/hyprland";
+in
+
 {
   imports =
     [
