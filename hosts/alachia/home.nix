@@ -10,6 +10,6 @@
     ];
   imports = [
     ../../modules/desktop.nix
-    ../components/hosts/alachia/hyprland.nix
+    ../../components/hosts/alachia/hyprland.nix
   ];
 }
