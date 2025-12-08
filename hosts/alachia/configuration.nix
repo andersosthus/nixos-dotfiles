@@ -6,6 +6,12 @@
       ./hardware-configuration.nix
     ];
 
+  # Laptop specific settings
+  powerManagement.enable = true;
+  powerManagement.powerTop.enable = true;
+  services.auto-cpufreq.enable = true;
+  # End laptop specific settings
+
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
@@ -16,14 +22,21 @@
 
   time.timeZone = "Europe/Oslo";
 
-  services.getty.autologinUser = "grapz";
+  users.users.grapz = {
+    isNormalUser = true;
+    extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
+    packages = with pkgs; [
+      tree
+    ];
+  };
 
   environment.variables = {
     EDITOR = "nvim";
     VISUAL = "nvim";
   };
 
-  environment.pathsToLink = [ "/share/applications" "/share/xdg-desktop-portal" ];
+  system.autoUpgrade.enable = true;
+  system.autoUpgrade.dates = "weekly";
 
   i18n.defaultLocale = "en_US.UTF-8";
 
@@ -33,19 +46,10 @@
   };
 
   services.libinput.enable = true;
+  services.getty.autologinUser = "grapz";
+  services.openssh.enable = true;
 
-  users.users.grapz = {
-    isNormalUser = true;
-    extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
-    packages = with pkgs; [
-      tree
-    ];
-  };
-
-  programs.hyprland.enable = true;
-  programs.hyprland.package = inputs.hyprland.packages."${pkgs.system}".hyprland;
-  programs.firefox.enable = true;
-
+  environment.pathsToLink = [ "/share/applications" "/share/xdg-desktop-portal" ];
   environment.systemPackages = with pkgs; [
     vim
     wget
@@ -60,12 +64,22 @@
   ];
 
   nix.settings = {
+    auto-optimise-store = true;
     experimental-features = [ "nix-command" "flakes" ];
     substituters = ["https://hyprland.cachix.org"];
     trusted-substituters = ["https://hyprland.cachix.org"];
     trusted-public-keys = ["hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="];
   };
 
+  nix.gc = {
+    automatic = true;
+    dates = "daily";
+    options = "--delete-older-than 15d";
+  };
+
+  programs.hyprland.enable = true;
+  programs.hyprland.package = inputs.hyprland.packages."${pkgs.system}".hyprland;
+  programs.firefox.enable = true;
   programs.mtr.enable = true;
   programs.gnupg.agent = {
     enable = true;
@@ -77,9 +91,6 @@
       insteadOf = [ "gh:" "github:" ];
     };
   };
-
-  # Enable the OpenSSH daemon.
-  services.openssh.enable = true;
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];

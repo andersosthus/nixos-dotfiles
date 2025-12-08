@@ -1,9 +1,26 @@
-{ pkgs, theme, ... }:
+{ pkgs, themeName, userName, ... }:
+
+let
+  tuigreet = "${pkgs.greetd.tuigreet}/bin/tuigreet";
+  session = "${pkgs.hyprland}/bin/hyprland";
+  theme = import ../themes/${themeName}/base.nix;
+in
 
 {
-  imports = [
-    ../themes/${theme}/hyprland.nix
-  ];
+  services.greetd = {
+    enable = true;
+    settings = {
+      initial_session  = {
+        command = "${session}";
+        user = "${userName}";
+      };
+      default_session = {
+        command = "${tuigreet} --greeting 'Welcome to NixOS!' --asterisks --remember --remember-user-session --time --cmd ${session}";
+        user = "greeter";
+      };
+    };
+  };
+
   wayland.windowManager.hyprland = {
     enable = true;
     xwayland.enable = true;
@@ -23,8 +40,8 @@
         allow_tearing = false;
         layout = "master";
 
-        "col.active_border" = "$activeBorderColor";
-        "col.inactive_border" = "$inactiveBorderColor";
+        "col.active_border" = ${theme._module.args.theme.color10.toHexRGBA};
+        "col.inactive_border" = ${theme._module.args.theme.color04.toHexRGBA};
       };
 
       decoration = {
@@ -37,7 +54,7 @@
           enabled = true;
           range = 4;
           render_power = 3;
-          color = "$shadowColor";
+          color = ${theme._module.args.theme.color02.toHexRGBA};
         };
 
         blur = {
@@ -154,6 +171,7 @@
         "$mod CTRL SHIFT ALT, G, split:grabroguewindows"
         "$mod CTRL SHIFT, S, split:swapactiveworkspaces, current +1"
         "$mod, S, layoutmsg, swapwithmaster"
+        "$mod, L, exec, ~/.local/bin/lock-screen"
       ]
       ++ (
         builtins.concatLists (builtins.genList (i:
@@ -174,6 +192,44 @@
 
   programs.hyprlock = {
     enable = true;
+    settings = {
+      general = {
+        hide_cursor = true;
+        ignore_empty_input = true;
+      };
+
+      animations = {
+        enabled = true;
+        fade_in = {
+          duration = 300;
+          bezier = "easeOutQuint";
+        };
+        fade_out = {
+          duration = 300;
+          bezier = "easeOutQuint";
+        };
+      };
+
+      background = [
+        {
+          monitor = "";
+          color = ${theme._module.args.theme.color00.toRgba};
+        }
+      ];
+
+      input-field = [
+        {
+          size = "650, 100";
+          position = "0, 0";
+          monitor = "";
+          dots_center = true;
+          fade_on_empty = false;
+          check_color = ${theme._module.args.theme.color13.toRgba};
+          success_color = ${theme._module.args.theme.color11.toRgba};
+          fail_color = ${theme._module.args.theme.color15.toRgba};
+        }
+      ];
+    };
   };
 
   services.hypridle = {

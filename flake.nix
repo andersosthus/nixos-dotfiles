@@ -19,18 +19,21 @@
     hyprland = {
       url = "github:hyprwm/Hyprland";
     };
+    nixos-hardware = {
+      url = "github:NixOS/nixos-hardware/master";
+    };
   };
 
   outputs = inputs@{ self, nixpkgs, disko, home-manager, agenix, ... }:
   let
-    mkHost = { hostName, userName, theme, system, extraModules ? [] }:
+    mkHost = { hostName, userName, themeName, system, extraModules ? [] }:
       nixpkgs.lib.nixosSystem {
         inherit system;
-        specialArgs = { inherit inputs hostName userName theme; };
+        specialArgs = { inherit inputs hostName userName themeName; };
 
         modules = [
-          ./hosts/alachia/configuration.nix
-          ./hosts/alachia/disko-config.nix
+          ./hosts/${hostName}/configuration.nix
+          ./hosts/${hostName}/disko-config.nix
 
           disko.nixosModules.disko
 
@@ -46,7 +49,7 @@
               backupFileExtension = "backup";
 
               extraSpecialArgs = {
-                inherit inputs userName hostName theme;
+                inherit inputs userName hostName themeName;
               };
             };
           }
@@ -58,8 +61,11 @@
       alachia = mkHost {
         hostName = "alachia";
         userName = "grapz";
-        theme = "tokyo-nights";
+        themeName = "tokyo-night";
         system = "x86_64-linux";
+        extraModules = [
+          inputs.nixos-hardware.nixosModules.lenovo-thinkpad-x1-6th-gen
+        ];
       };
     };
   };

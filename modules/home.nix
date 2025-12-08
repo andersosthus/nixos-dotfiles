@@ -1,4 +1,4 @@
-{ config, pkgs, userName, hostName, theme, ... }:
+{ config, pkgs, userName, hostName, themeName, ... }:
 
 {
   home.username = userName;
@@ -9,9 +9,11 @@
     [
     ];
   imports = [
+    ./scripts.nix
     ./fish.nix
     ./git.nix
     ./hyprland.nix
     ./neovim.nix
+    ../themes/${themeName}/base.nix
   ];
 }
