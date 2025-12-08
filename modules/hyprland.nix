@@ -1,8 +1,4 @@
-{ pkgs, themeName, userName, ... }:
-
-let
-  theme = import ../themes/${themeName}/base.nix;
-in
+{ pkgs, theme, ... }:
 
 {
   wayland.windowManager.hyprland = {
