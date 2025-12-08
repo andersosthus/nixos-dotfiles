@@ -1,4 +1,4 @@
-{ config, lib, pkgs, inputs, ... }:
+{ config, lib, pkgs, inputs, userName, ... }:
 
 {
   imports =
@@ -6,6 +6,19 @@
       ./hardware-configuration.nix
     ];
 
+  services.greetd = {
+    enable = true;
+    settings = {
+      initial_session  = {
+        command = "${session}";
+        user = "${userName}";
+      };
+      default_session = {
+        command = "${tuigreet} --greeting 'Welcome to NixOS!' --asterisks --remember --remember-user-session --time --cmd ${session}";
+        user = "greeter";
+      };
+    };
+  };
   # Laptop specific settings
   powerManagement.enable = true;
   #powerManagement.powerTop.enable = true;

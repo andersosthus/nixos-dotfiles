@@ -7,20 +7,6 @@ let
 in
 
 {
-  services.greetd = {
-    enable = true;
-    settings = {
-      initial_session  = {
-        command = "${session}";
-        user = "${userName}";
-      };
-      default_session = {
-        command = "${tuigreet} --greeting 'Welcome to NixOS!' --asterisks --remember --remember-user-session --time --cmd ${session}";
-        user = "greeter";
-      };
-    };
-  };
-
   wayland.windowManager.hyprland = {
     enable = true;
     xwayland.enable = true;
