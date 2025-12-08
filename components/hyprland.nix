@@ -236,4 +236,21 @@
       ];
     };
   };
+
+  services.hyprsunset = {
+    enable = true;
+    settings = {
+      profiile = [
+        {
+          time = "08:00";
+          identity = true;
+        }
+        {
+          time = "20:00";
+          temperature = 4000;
+          gamma = 0.8;
+        }
+      ];
+    };
+  };
 }
